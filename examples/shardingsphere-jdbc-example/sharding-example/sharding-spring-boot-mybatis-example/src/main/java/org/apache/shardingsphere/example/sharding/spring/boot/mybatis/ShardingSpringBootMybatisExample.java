@@ -35,7 +35,9 @@ public class ShardingSpringBootMybatisExample {
     
     public static void main(final String[] args) throws SQLException {
         try (ConfigurableApplicationContext applicationContext = SpringApplication.run(ShardingSpringBootMybatisExample.class, args)) {
-            ExampleExecuteTemplate.run(applicationContext.getBean(ExampleService.class));
+            // org.apache.shardingsphere.example.core.mybatis.service.OrderServiceImpl
+            ExampleService exampleService = applicationContext.getBean(ExampleService.class);
+            ExampleExecuteTemplate.run(exampleService);
         }
     }
 }

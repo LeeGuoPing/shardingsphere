@@ -25,6 +25,10 @@
         <result column="status" property="status" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <select id="selectA" resultMap="baseResultMap">
+        SELECT order_id, #{userId} as user_id,address_id,status FROM t_order where order_id = #{orderId};
+    </select>
+
     <update id="createTableIfNotExists">
         CREATE TABLE IF NOT EXISTS t_order (order_id BIGINT AUTO_INCREMENT, user_id INT NOT NULL, address_id BIGINT NOT NULL, status VARCHAR(50), PRIMARY KEY (order_id));
     </update>

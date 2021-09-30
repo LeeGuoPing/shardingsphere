@@ -19,6 +19,7 @@ package org.apache.shardingsphere.infra.binder;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.apache.shardingsphere.infra.binder.statement.SQLStatementContext;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Getter
+@ToString
 public final class LogicSQL {
     
     private final SQLStatementContext<?> sqlStatementContext;

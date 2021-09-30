@@ -19,5 +19,9 @@ package org.apache.shardingsphere.example.core.api.repository;
 
 import org.apache.shardingsphere.example.core.api.entity.Order;
 
+import java.util.List;
+
 public interface OrderRepository extends CommonRepository<Order, Long> {
+
+    List<Order> selectA( Long orderId, Integer userId);
 }

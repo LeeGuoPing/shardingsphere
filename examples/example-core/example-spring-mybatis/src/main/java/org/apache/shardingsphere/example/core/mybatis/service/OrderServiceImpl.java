@@ -24,7 +24,6 @@ import org.apache.shardingsphere.example.core.api.repository.AddressRepository;
 import org.apache.shardingsphere.example.core.api.repository.OrderItemRepository;
 import org.apache.shardingsphere.example.core.api.repository.OrderRepository;
 import org.apache.shardingsphere.example.core.api.service.ExampleService;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,17 +33,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Primary
 public class OrderServiceImpl implements ExampleService {
     
     @Resource
     private OrderRepository orderRepository;
-    
+
     @Resource
     private OrderItemRepository orderItemRepository;
     
     @Resource
     private AddressRepository addressRepository;
+
+    long orderId= 0;
 
     @Override
     public void initEnvironment() throws SQLException {
@@ -68,8 +68,12 @@ public class OrderServiceImpl implements ExampleService {
 
     @Override
     public void cleanEnvironment() throws SQLException {
-        orderRepository.dropTable();
-        orderItemRepository.dropTable();
+//        orderRepository.dropTable();
+//        orderItemRepository.dropTable();
+        List<Order> orders = orderRepository.selectA(orderId, 998);
+        System.out.println("++++++++++++++");
+        orders.forEach(System.out::println);
+        System.out.println("++++++++++++++");
     }
     
     @Override
@@ -78,8 +82,9 @@ public class OrderServiceImpl implements ExampleService {
         System.out.println("-------------- Process Success Begin ---------------");
         List<Long> orderIds = insertData();
         printData();
-        deleteData(orderIds);
-        printData();
+
+//        deleteData(orderIds);
+//        printData();
         System.out.println("-------------- Process Success Finish --------------");
     }
     
@@ -101,6 +106,7 @@ public class OrderServiceImpl implements ExampleService {
             order.setAddressId(i);
             order.setStatus("INSERT_TEST");
             orderRepository.insert(order);
+            orderId = order.getOrderId();
             OrderItem item = new OrderItem();
             item.setOrderId(order.getOrderId());
             item.setUserId(i);
