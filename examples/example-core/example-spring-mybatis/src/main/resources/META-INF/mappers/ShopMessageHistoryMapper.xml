@@ -26,14 +26,13 @@
         <result column="receive_status_id" property="receiveStatusId" jdbcType="VARCHAR" />
     </resultMap>
     <!-- not work    throw error  -->
-    <select id="fetchShopMessageSendHistoryList"
-            resultMap="baseResultMap">
-    SELECT shop_id,id, #{statusId} as receive_status_id FROM shop_message_history WHERE shop_id = #{shopId}
- </select>
+    <select id="fetchShopMessageSendHistoryList" resultMap="baseResultMap">
+        SELECT shop_id,id, #{statusId} as receive_status_id FROM shop_message_history WHERE shop_id = #{shopId}
+    </select>
 
 
     <!-- working OK -->
     <select id="fetchShopMessageSendHistorysss" resultMap="baseResultMap">
-    SELECT *  FROM shop_message_history WHERE shop_id = #{shopId}
- </select>
+        SELECT *  FROM shop_message_history WHERE shop_id = #{shopId}
+    </select>
 </mapper>

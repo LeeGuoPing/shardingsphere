@@ -54,8 +54,12 @@ public class ShopMessageHistoryServiceImpl implements ExampleService {
     @Transactional
     public void processSuccess() throws SQLException {
         System.out.println("-------------- Process Success Begin ---------------");
+        System.out.println("error.....");
         List<ShopMessageHistory> shopMessageHistories = shopRepository.fetchShopMessageSendHistoryList(1L, "1");
         shopMessageHistories.forEach(System.out::println);
+        System.out.println("success.....");
+        List<ShopMessageHistory> shopMessageHistories1 = shopRepository.fetchShopMessageSendHistorysss(1L, "1");
+        shopMessageHistories1.forEach(System.out::println);
         System.out.println("-------------- Process Success Finish --------------");
     }
     
