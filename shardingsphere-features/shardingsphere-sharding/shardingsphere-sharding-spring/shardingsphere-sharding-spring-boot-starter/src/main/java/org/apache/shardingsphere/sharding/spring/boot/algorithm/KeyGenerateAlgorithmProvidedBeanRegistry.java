@@ -35,6 +35,7 @@ public final class KeyGenerateAlgorithmProvidedBeanRegistry extends AbstractAlgo
     
     @Override
     public void postProcessBeanDefinitionRegistry(final BeanDefinitionRegistry registry) {
+        System.err.println("KeyGenerateAlgorithmProvidedBeanRegistry postProcessBeanDefinitionRegistry 注册");
         registerBean(KEY_GENERATORS, KeyGenerateAlgorithm.class, registry);
     }
 }

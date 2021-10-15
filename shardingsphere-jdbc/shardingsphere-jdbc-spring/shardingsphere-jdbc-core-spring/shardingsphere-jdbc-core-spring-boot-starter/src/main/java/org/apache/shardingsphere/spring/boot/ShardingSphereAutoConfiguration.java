@@ -74,6 +74,7 @@ public class ShardingSphereAutoConfiguration implements EnvironmentAware {
      */
     @Bean
     public ModeConfiguration modeConfiguration() {
+        System.err.println("modeConfiguration");
         return null == props.getMode() ? null : new ModeConfigurationYamlSwapper().swapToObject(props.getMode());
     }
     
@@ -89,7 +90,13 @@ public class ShardingSphereAutoConfiguration implements EnvironmentAware {
     @Conditional(LocalRulesCondition.class)
     @Autowired(required = false)
     public DataSource shardingSphereDataSource(final ObjectProvider<List<RuleConfiguration>> rules, final ObjectProvider<ModeConfiguration> modeConfig) throws SQLException {
+        System.err.println("shardingSphereDataSource");
         Collection<RuleConfiguration> ruleConfigs = Optional.ofNullable(rules.getIfAvailable()).orElse(Collections.emptyList());
+        System.out.println("schemaName:"+schemaName + ", modeConfig.getIfAvailable()"+ modeConfig.getIfAvailable()+"");
+        // schemaName: logic_db
+        // modeConfig.getIfAvailable() type:Memory, repository: null, overwrite:false
+        // dataSourceMap ds:HikariDatasource
+        //
         return ShardingSphereDataSourceFactory.createDataSource(schemaName, modeConfig.getIfAvailable(), dataSourceMap, ruleConfigs, props.getProps());
     }
     
@@ -103,6 +110,7 @@ public class ShardingSphereAutoConfiguration implements EnvironmentAware {
     @Bean
     @ConditionalOnMissingBean(DataSource.class)
     public DataSource dataSource(final ModeConfiguration modeConfig) throws SQLException {
+        System.err.println("dataSource");
         return ShardingSphereDataSourceFactory.createDataSource(schemaName, modeConfig);
     }
     
@@ -118,7 +126,10 @@ public class ShardingSphereAutoConfiguration implements EnvironmentAware {
     
     @Override
     public final void setEnvironment(final Environment environment) {
+        // 入口 1
+        System.out.println("setEnvironment");
         dataSourceMap.putAll(DataSourceMapSetter.getDataSourceMap(environment));
+        // schemaName logic_db
         schemaName = SchemaNameSetter.getSchemaName(environment);
     }
 }

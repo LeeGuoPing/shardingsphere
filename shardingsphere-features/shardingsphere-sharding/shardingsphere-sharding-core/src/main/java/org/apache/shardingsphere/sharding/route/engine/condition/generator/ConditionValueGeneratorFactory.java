@@ -47,6 +47,7 @@ public final class ConditionValueGeneratorFactory {
      * @return route value
      */
     public static Optional<ShardingConditionValue> generate(final ExpressionSegment predicate, final Column column, final List<Object> parameters) {
+        // TODO 待看
         if (predicate instanceof BinaryOperationExpression) {
             return new ConditionValueCompareOperatorGenerator().generate((BinaryOperationExpression) predicate, column, parameters);
         }

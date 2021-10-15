@@ -55,6 +55,7 @@ public abstract class AbstractAlgorithmProvidedBeanRegistry<T extends ShardingSp
     
     @SuppressWarnings("unchecked")
     protected final void registerBean(final String prefix, final Class<T> algorithmClass, final BeanDefinitionRegistry registry) {
+        System.err.println("AbstractAlgorithmProvidedBeanRegistry registerBean");
         boolean existPrefix = PropertyUtil.containPropertyPrefix(environment, prefix);
         if (existPrefix) {
             Map<String, Object> paramMap = PropertyUtil.handle(environment, prefix, Map.class);

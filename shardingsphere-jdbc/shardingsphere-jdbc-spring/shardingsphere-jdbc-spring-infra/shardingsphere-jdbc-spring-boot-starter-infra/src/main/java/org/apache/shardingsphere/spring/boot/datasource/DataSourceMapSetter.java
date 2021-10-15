@@ -59,6 +59,7 @@ public final class DataSourceMapSetter {
      * @return data source map
      */
     public static Map<String, DataSource> getDataSourceMap(final Environment environment) {
+        // 2
         Map<String, DataSource> result = new LinkedHashMap<>();
         for (String each : getDataSourceNames(environment)) {
             try {
@@ -75,8 +76,11 @@ public final class DataSourceMapSetter {
     private static List<String> getDataSourceNames(final Environment environment) {
         StandardEnvironment standardEnv = (StandardEnvironment) environment;
         standardEnv.setIgnoreUnresolvableNestedPlaceholders(true);
+        // spring.shardingsphere.datasource.name
         String dataSourceNames = standardEnv.getProperty(PREFIX + DATA_SOURCE_NAME);
         if (StringUtils.isEmpty(dataSourceNames)) {
+            // spring.shardingsphere.datasource.names
+            // 就是配置的 ds
             dataSourceNames = standardEnv.getProperty(PREFIX + DATA_SOURCE_NAMES);
         }
         return new InlineExpressionParser(dataSourceNames).splitAndEvaluate();
@@ -86,10 +90,18 @@ public final class DataSourceMapSetter {
     private static DataSource getDataSource(final Environment environment, final String dataSourceName) throws ReflectiveOperationException, NamingException {
         Map<String, Object> dataSourceProps = PropertyUtil.handle(environment, String.join("", PREFIX, dataSourceName), Map.class);
         Preconditions.checkState(!dataSourceProps.isEmpty(), "Wrong datasource [%s] properties.", dataSourceName);
+        // jndi-name
         if (dataSourceProps.containsKey(JNDI_NAME)) {
             return getJNDIDataSource(dataSourceProps.get(JNDI_NAME).toString());
         }
+        // 为数据源赋值
+        // spring.shardingsphere.datasource.ds.type=com.zaxxer.hikari.HikariDataSource
+        // spring.shardingsphere.datasource.ds.driver-class-name=com.mysql.jdbc.Driver
+        // spring.shardingsphere.datasource.ds.jdbc-url=jdbc:mysql://localhost:3306/princess?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+        // spring.shardingsphere.datasource.ds.username=root
+        // spring.shardingsphere.datasource.ds.password=aaa123
         DataSource result = DataSourceUtil.getDataSource(dataSourceProps.get(DATA_SOURCE_TYPE).toString(), dataSourceProps);
+        // 设置一些其他属性
         DataSourcePropertiesSetterHolder.getDataSourcePropertiesSetterByType(dataSourceProps.get(DATA_SOURCE_TYPE).toString()).ifPresent(
             propsSetter -> propsSetter.propertiesSet(environment, PREFIX, dataSourceName, result));
         return result;

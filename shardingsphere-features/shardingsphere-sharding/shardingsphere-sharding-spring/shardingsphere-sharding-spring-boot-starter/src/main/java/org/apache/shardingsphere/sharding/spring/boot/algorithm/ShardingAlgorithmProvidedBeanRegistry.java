@@ -35,6 +35,7 @@ public final class ShardingAlgorithmProvidedBeanRegistry extends AbstractAlgorit
     
     @Override
     public void postProcessBeanDefinitionRegistry(final BeanDefinitionRegistry registry) {
+        System.err.println("ShardingAlgorithmProvidedBeanRegistry postProcessBeanDefinitionRegistry 注册");
         registerBean(SHARDING_ALGORITHMS, ShardingAlgorithm.class, registry);
     }
 }

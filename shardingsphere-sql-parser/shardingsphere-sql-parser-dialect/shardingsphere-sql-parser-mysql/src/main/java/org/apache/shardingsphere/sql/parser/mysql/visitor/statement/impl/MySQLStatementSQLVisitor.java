@@ -1304,6 +1304,8 @@ public abstract class MySQLStatementSQLVisitor extends MySQLStatementBaseVisitor
             return result;
         }
         if (projection instanceof ParameterMarkerExpressionSegment) {
+            ParameterMarkerExpressionSegment result = ((ParameterMarkerExpressionSegment) projection);
+            result.setAlias(alias);
             return projection;
         }
         LiteralExpressionSegment column = (LiteralExpressionSegment) projection;
