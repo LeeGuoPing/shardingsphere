@@ -35,4 +35,9 @@ public final class AddResourceStatementTestCase extends SQLParserTestCase {
     
     @XmlElement(name = "data-source")
     private final List<ExpectedDataSource> dataSources = new LinkedList<>();
+
+    @Override
+    public String getXmlElementName() {
+        return "add-resource";
+    }
 }

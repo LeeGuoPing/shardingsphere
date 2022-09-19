@@ -55,4 +55,8 @@ public abstract class SQLParserTestCase {
     public List<String> getParameters() {
         return null == parameters ? Collections.emptyList() : Splitter.on(",").trimResults().splitToList(parameters);
     }
+    
+    public String getXmlElementName(){
+        return "";
+    }
 }
